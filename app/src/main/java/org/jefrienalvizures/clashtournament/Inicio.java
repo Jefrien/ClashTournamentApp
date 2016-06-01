@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import org.jefrienalvizures.clashtournament.bean.Usuario;
-import org.jefrienalvizures.clashtournament.clases.Conmunicador;
+import org.jefrienalvizures.clashtournament.clases.Comunicador;
 
 public class Inicio extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class Inicio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
 
-        Usuario u = Conmunicador.getUsuario();
+        Usuario u = Comunicador.getUsuario();
         TextView t = (TextView) findViewById(R.id.nombre);
         t.setText(u.getNombre().toString());
     }

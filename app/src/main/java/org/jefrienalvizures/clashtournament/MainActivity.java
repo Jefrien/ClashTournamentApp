@@ -17,9 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.jefrienalvizures.clashtournament.bean.Usuario;
-import org.jefrienalvizures.clashtournament.clases.Conmunicador;
+import org.jefrienalvizures.clashtournament.clases.Comunicador;
 import org.jefrienalvizures.clashtournament.volley.WebService;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 user.getString("nombre"),
                                                 user.getInt("clan")
                                         );
-                                        Conmunicador.setUsuario(userLogged);
+                                        Comunicador.setUsuario(userLogged);
                                         pg.dismiss();
                                         Toast.makeText(getApplicationContext(),"Bienvenido "+user.getString("nombre"),Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(MainActivity.this,Inicio.class));
