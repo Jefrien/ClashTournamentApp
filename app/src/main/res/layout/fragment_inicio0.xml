@@ -35,22 +35,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unirse a un clan"
+            android:text="CREAR TORNEO"
             android:padding="10dp"
             android:layout_weight="2"
             android:layout_margin="5dp"
             android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
+            android:background="@color/azul"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear clan"
+            android:text="ABANDONAR CLAN"
             android:padding="10dp"
             android:layout_margin="5dp"
             android:layout_weight="2"
             android:textColor="@android:color/white"
-            android:background="@color/azul"
+            android:background="@color/colorAccent"
             />
 
         </LinearLayout>
