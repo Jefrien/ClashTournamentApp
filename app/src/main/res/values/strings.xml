@@ -2,4 +2,7 @@
     <string name="app_name">ClashTournament</string>
     <string name="app_descripcion">Bienvenido, Inicia sesion...</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
