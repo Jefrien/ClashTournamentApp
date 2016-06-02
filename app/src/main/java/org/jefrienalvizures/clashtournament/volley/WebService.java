@@ -16,6 +16,7 @@ public class WebService {
     public static String server = "http://192.168.1.10:8123/ClashTournamentWS";
     public static String autenticar = server + "/login.php";
     public static String registrar = server + "/registro.php";
+    public static String addClan = server + "/regClan.php";
     private static WebService mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;

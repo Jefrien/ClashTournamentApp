@@ -1,6 +1,7 @@
 package org.jefrienalvizures.clashtournament.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jefrienalvizures.clashtournament.R;
@@ -23,6 +25,27 @@ public class InicioFragment extends Fragment {
     WebView wb;
     Usuario u;
 
+    public interface OnButtonClickListenerInicio{
+        void onAccionListener(int accion);
+    }
+
+    OnButtonClickListenerInicio listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            listener = (OnButtonClickListenerInicio) activity;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(
+                    activity.toString() +
+                            " no implementó OnSetTitleListener");
+
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,27 +53,27 @@ public class InicioFragment extends Fragment {
         View v;
         if(u.getClan() == 0){
              v = inflater.inflate(R.layout.fragment_inicio,container,false);
+            Button crearClanBtn = (Button) v.findViewById(R.id.btnCrearClan);
+            crearClanBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onAccionListener(1);
+                }
+            });
         } else {
             v = inflater.inflate(R.layout.fragment_inicio0,container,false);
         }
 
-
-
         usuarioTxt = (TextView) v.findViewById(R.id.usuarioTxtInicio);
         usuarioTxt.setText(u.getNombre());
-
-        Descripcion(v);
 
         return v;
     }
 
-    public void Descripcion(View v){
-        wb= (WebView) v.findViewById(R.id.webViewDesc);
-        String text;
-        text = "<html<body><p align=\"justify\">";
-        text+= getString(R.string.bienvenida);
-        text+= "</p></body></html>";
-        wb.loadData(text, "text/html", "utf-8");
+    public void siClan(View v){
+
     }
+
+
 
 }

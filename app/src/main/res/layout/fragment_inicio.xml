@@ -51,17 +51,20 @@
             android:layout_weight="2"
             android:textColor="@android:color/white"
             android:background="@color/azul"
-            />
+            android:id="@+id/btnCrearClan" />
 
         </LinearLayout>
 
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="10dp"
-        android:id="@+id/webViewDesc"
-        android:theme="@style/Oscuro"
-        android:textSize="18sp" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="@string/bienvenida"
+        />
 
 
 </LinearLayout>

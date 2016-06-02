@@ -10,6 +10,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
+import org.jefrienalvizures.clashtournament.Dialogs.SimpleListDialog;
+import org.jefrienalvizures.clashtournament.Dialogs.crearClanDialog;
 import org.jefrienalvizures.clashtournament.fragments.*;
 
 import org.jefrienalvizures.clashtournament.bean.Usuario;
@@ -18,10 +21,10 @@ import org.jefrienalvizures.clashtournament.clases.Comunicador;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inicio extends AppCompatActivity {
+public class Inicio extends AppCompatActivity implements SimpleListDialog.OnSetTitleListener, InicioFragment.OnButtonClickListenerInicio {
 
-    ViewPager mViewPager;
-    TabLayout tabs;
+    ViewPager viewPager;
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +34,12 @@ public class Inicio extends AppCompatActivity {
 
         setToolbar();
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("CLAN"));
         tabLayout.addTab(tabLayout.newTab().setText("PERFIL"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -77,6 +80,25 @@ public class Inicio extends AppCompatActivity {
 
     }
 
+    @Override
+    public void setTitle(String title) {
+
+
+        if(tabLayout.getTabAt(1)!=null){
+            tabLayout.getTabAt(1).setText(title);
+        }else{
+            // Reporta el error...
+        }
+    }
+
+    @Override
+    public void onAccionListener(int accion) {
+        switch (accion){
+            case 1:
+                new crearClanDialog().show(getSupportFragmentManager(),"crearClanDialog");
+                break;
+        }
+    }
 
 
     /**

@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"
-        android:text="Iniciar Sesion"
+        android:text="INICIAR SESIÓN"
         android:id="@+id/btnLogin"
         android:paddingBottom="7dp"
         android:paddingTop="7dp"

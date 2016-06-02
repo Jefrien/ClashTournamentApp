@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:theme="@style/Oscuro"
+    android:padding="20dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:text="Crear Clan"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        android:layout_gravity="top|center_horizontal"
+        android:paddingTop="20dp" />
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="@string/crearClan"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:hint="Nombre del clan"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="15dp"
+        android:padding="7dp"
+        android:background="@drawable/fondo_edittext"
+        android:textColorHint="@color/colorAccent"
+        android:inputType="text"
+        android:id="@+id/crearClanNombre"
+
+        />
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:text="CREAR CLAN"
+        android:id="@+id/btnCrearClanForm"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        />
+
+</LinearLayout>

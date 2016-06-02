@@ -7,10 +7,16 @@
     <string name="bienvenida">
         Bienvenido a Clash Tournament donde podras crear torneos completos en tiempo
         real para tu clan.
-        Como primer caso crea un clan o unete a uno ya existente, depues de esto habla con tus amigos
+        Como primer paso crea un clan o unete a uno ya existente, depues de esto habla con tus amigos
         y crea un torneo desde la aplicacion principal: A partir de ese momento puedes minimizar
         Clash Tournament e Iniciar Clash Royale, podras revisar el progreso sin salirte del juego!.
         Asi de facil crearas torneos gracias a Clash Tournament.
 
+    </string>
+    <string name="crearClan">
+        Al crear un clan se te dara la ID del clan para que puedas invitar a tus
+        amigos a unirse. Todos podran crean torneos pero cada jugador puede decidir si
+        desea ser incluido o no.
+        Que comienze la diversión...
     </string>
 </resources>

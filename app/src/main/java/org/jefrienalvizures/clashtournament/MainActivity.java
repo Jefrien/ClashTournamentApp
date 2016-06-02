@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnLogin.setEnabled(false);
 
-        final ProgressDialog pg = new ProgressDialog(MainActivity.this);
+        final ProgressDialog pg = new ProgressDialog(MainActivity.this,R.style.Oscuro_ProgressDialog);
         pg.setIndeterminate(true);
         pg.setMessage("Iniciando Sesión...");
         pg.setCancelable(false);
