@@ -10,18 +10,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
-import org.jefrienalvizures.clashtournament.Dialogs.SimpleListDialog;
 import org.jefrienalvizures.clashtournament.Dialogs.crearClanDialog;
+import org.jefrienalvizures.clashtournament.bean.Clan;
+import org.jefrienalvizures.clashtournament.clases.Clanes;
 import org.jefrienalvizures.clashtournament.fragments.*;
 
 import org.jefrienalvizures.clashtournament.bean.Usuario;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Inicio extends AppCompatActivity implements SimpleListDialog.OnSetTitleListener, InicioFragment.OnButtonClickListenerInicio {
+public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanCreatedListener, InicioFragment.OnButtonClickListenerInicio {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -80,16 +79,6 @@ public class Inicio extends AppCompatActivity implements SimpleListDialog.OnSetT
 
     }
 
-    @Override
-    public void setTitle(String title) {
-
-
-        if(tabLayout.getTabAt(1)!=null){
-            tabLayout.getTabAt(1).setText(title);
-        }else{
-            // Reporta el error...
-        }
-    }
 
     @Override
     public void onAccionListener(int accion) {
@@ -98,6 +87,16 @@ public class Inicio extends AppCompatActivity implements SimpleListDialog.OnSetT
                 new crearClanDialog().show(getSupportFragmentManager(),"crearClanDialog");
                 break;
         }
+    }
+
+    @Override
+    public void onClanCreatedListener(String nombreClan) {
+        if(nombreClan!=null){
+            Log.e("NOMBRE CLAN",nombreClan);
+            //Clan clan = new Clanes().getClanByName(nombreClan,this);
+            //Log.e("NOMBRE CLAN OBTENIDO",clan.getNombreClan().toString());
+        }
+
     }
 
 

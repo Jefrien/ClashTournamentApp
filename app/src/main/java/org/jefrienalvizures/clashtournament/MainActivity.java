@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onResponse(JSONObject response) {
                                 try{
                                     //JSONArray listaUsuario =  response.getJSONArray("usuario");
-                                    JSONObject user = response.getJSONObject("usuario");
+
                                     if(response.getInt("estado") == 1){
 
-
+                                        JSONObject user = response.getJSONObject("usuario");
                                         Usuario userLogged = new Usuario(
                                                 user.getInt("idUsuario"),
                                                 user.getString("usuario"),

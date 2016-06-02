@@ -1,5 +1,6 @@
 package org.jefrienalvizures.clashtournament.Dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,6 +33,29 @@ import java.util.Map;
  * Created by Familia on 01/06/2016.
  */
 public class crearClanDialog extends DialogFragment implements View.OnClickListener{
+
+
+    public interface OnClanCreatedListener{
+        void onClanCreatedListener(String nombreClan);
+    }
+
+    OnClanCreatedListener listener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            listener = (OnClanCreatedListener) activity;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(
+                    activity.toString() +
+                            " no implementó OnSetTitleListener");
+
+        }
+    }
+
 
 
     EditText nombre;
@@ -68,7 +92,7 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
         }
 
         btnCrear.setEnabled(false);
-        final ProgressDialog pg = new ProgressDialog(getContext());
+        final ProgressDialog pg = new ProgressDialog(getContext(),R.style.Oscuro_ProgressDialog);
         pg.setIndeterminate(true);
         pg.setMessage("Creando...");
         pg.setCancelable(false);
@@ -95,6 +119,7 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
                                         pg.dismiss();
                                         Toast.makeText(getContext(),response.getString("mensaje"),Toast.LENGTH_SHORT).show();
                                         crearClanDialog.this.dismiss();
+                                        listener.onClanCreatedListener(nombre.getText().toString());
                                     } else {
                                         pg.dismiss();
                                         btnCrear.setEnabled(true);

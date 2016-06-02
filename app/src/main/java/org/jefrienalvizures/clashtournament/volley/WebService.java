@@ -17,6 +17,9 @@ public class WebService {
     public static String autenticar = server + "/login.php";
     public static String registrar = server + "/registro.php";
     public static String addClan = server + "/regClan.php";
+    public static String getByIdClan = server + "/clanById.php";
+    public static String getByNameClan = server + "/clanByName.php";
+
     private static WebService mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;

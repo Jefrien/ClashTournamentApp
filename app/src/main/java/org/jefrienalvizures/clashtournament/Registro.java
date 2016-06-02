@@ -52,7 +52,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         }
 
         btnRegistro.setEnabled(false);
-        final ProgressDialog pg = new ProgressDialog(this);
+        final ProgressDialog pg = new ProgressDialog(this,R.style.Oscuro_ProgressDialog);
         pg.setIndeterminate(true);
         pg.setMessage("Registrando...");
         pg.setCancelable(false);
