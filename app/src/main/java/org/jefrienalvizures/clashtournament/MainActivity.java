@@ -1,6 +1,7 @@
 package org.jefrienalvizures.clashtournament;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +17,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.jefrienalvizures.clashtournament.bean.Clan;
 import org.jefrienalvizures.clashtournament.bean.Usuario;
+import org.jefrienalvizures.clashtournament.clases.Clanes;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
+import org.jefrienalvizures.clashtournament.db.ClanDB;
+import org.jefrienalvizures.clashtournament.db.usuarioDB;
 import org.jefrienalvizures.clashtournament.volley.WebService;
 import org.json.JSONObject;
 
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         link = (TextView) findViewById(R.id.linkLogin);
         btnLogin.setOnClickListener(this);
         link.setOnClickListener(this);
+        clan();
+
     }
 
 
@@ -84,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 user.getString("nombre"),
                                                 user.getInt("clan")
                                         );
-                                        Comunicador.setUsuario(userLogged);
+                                        new usuarioDB().insertar(getBaseContext(),userLogged); // Ingreso el usuario a SQLite
+                                        Comunicador.setUsuario(userLogged); // Guardo el usuario en ejecucion
                                         pg.dismiss();
                                         Toast.makeText(getApplicationContext(),"Bienvenido "+user.getString("nombre"),Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(MainActivity.this,Inicio.class));
-                                        MainActivity.this.finish();
+                                        clan();
                                     } else {
                                         pg.dismiss();
                                         btnLogin.setEnabled(true);
@@ -112,6 +119,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ,3000);
 
 
+    }
+
+
+
+    public void clan(){
+        if(new usuarioDB().logueado(this)){
+            Usuario ul = new usuarioDB().obtener(this);
+            Comunicador.setUsuario(ul);
+            if(ul.getClan() == 0){
+                startActivity(new Intent(MainActivity.this,Inicio.class));
+            } else {
+
+                startActivity(new Intent(MainActivity.this,Inicio1.class));
+            }
+
+            this.finish();
+        }
+    }
+    public void obtenerById(){
+
+        final ProgressDialog pg = new ProgressDialog(MainActivity.this,R.style.Oscuro_ProgressDialog);
+        pg.setIndeterminate(true);
+        pg.setMessage("Iniciando Sesión...");
+        pg.setCancelable(false);
+        pg.show();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        // INICIA REGISTRO
+
+                        Map<String,String> params = new HashMap<String,String>();
+                        params.put("idClan",Comunicador.getUsuario().getClan()+"");
+
+
+                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, WebService.getClanById, new JSONObject(params), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try{
+
+                                    int estado = response.getInt("estado");
+                                    if(estado == 1){
+
+
+                                        JSONObject c = response.getJSONObject("clan");
+                                        Clan clan = new Clan(
+                                                c.getInt("idClan"),
+                                                c.getString("nombre"),
+                                                c.getInt("integrantes"),
+                                                c.getInt("idUsuario"));
+                                        Log.e("CLAN DESDE EL SERVIDOR",clan.getNombreClan());
+                                        Clanes.setClan(clan);
+
+                                    } else {
+                                        Toast.makeText(getBaseContext(),"Error obteniendo el clan",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch(Exception ex){
+                                    Log.e("Error",ex.getMessage());
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response",error.getMessage());
+                            }
+                        });
+                        WebService.getInstance(getBaseContext()).addToRequestQueue(request);
+                        // FIALIZA REGISTRO
+                    }
+                }
+                ,3000);
     }
 
     public boolean validar(){

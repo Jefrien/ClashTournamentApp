@@ -1,7 +1,5 @@
 package org.jefrienalvizures.clashtournament;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,28 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.jefrienalvizures.clashtournament.Dialogs.crearClanDialog;
-import org.jefrienalvizures.clashtournament.bean.Clan;
-import org.jefrienalvizures.clashtournament.clases.Clanes;
-import org.jefrienalvizures.clashtournament.db.usuarioDB;
-import org.jefrienalvizures.clashtournament.fragments.*;
-
 import org.jefrienalvizures.clashtournament.bean.Usuario;
-import org.jefrienalvizures.clashtournament.clases.Comunicador;
-import org.jefrienalvizures.clashtournament.volley.WebService;
-import org.json.JSONObject;
+import org.jefrienalvizures.clashtournament.db.usuarioDB;
+import org.jefrienalvizures.clashtournament.fragments.Inicio1Fragment;
+import org.jefrienalvizures.clashtournament.fragments.InicioFragment;
+import org.jefrienalvizures.clashtournament.fragments.perfilFragment;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanCreatedListener, InicioFragment.OnButtonClickListenerInicio {
+public class Inicio1 extends AppCompatActivity implements crearClanDialog.OnClanCreatedListener, InicioFragment.OnButtonClickListenerInicio{
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -103,18 +88,12 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
         }
     }
 
+
+
     @Override
     public void onClanCreatedListener(int accion) {
-        switch(accion){
-            case 1:
-                Usuario u = Comunicador.getUsuario();
-                new usuarioDB().modificar(this,u);
-                startActivity(new Intent(Inicio.this,Inicio1.class));
-                break;
-        }
 
     }
-
 
 
     /**
@@ -134,7 +113,7 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
 
             switch (position) {
                 case 0:
-                    InicioFragment tab1 = new InicioFragment();
+                    Inicio1Fragment tab1 = new Inicio1Fragment();
                     return tab1;
                 case 1:
                     perfilFragment tab2 = new perfilFragment();
@@ -152,6 +131,5 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
             return mNumOfTabs;
         }
     }
-
 
 }

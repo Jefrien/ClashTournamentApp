@@ -22,7 +22,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.jefrienalvizures.clashtournament.MainActivity;
 import org.jefrienalvizures.clashtournament.R;
+import org.jefrienalvizures.clashtournament.bean.Clan;
+import org.jefrienalvizures.clashtournament.bean.Usuario;
+import org.jefrienalvizures.clashtournament.clases.Clanes;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
+import org.jefrienalvizures.clashtournament.db.usuarioDB;
 import org.jefrienalvizures.clashtournament.volley.WebService;
 import org.json.JSONObject;
 
@@ -36,7 +40,7 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
 
 
     public interface OnClanCreatedListener{
-        void onClanCreatedListener(String nombreClan);
+        void onClanCreatedListener(int accion);
     }
 
     OnClanCreatedListener listener;
@@ -60,6 +64,7 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
 
     EditText nombre;
     Button btnCrear;
+    Clan clan;
 
     @NonNull
     @Override
@@ -107,19 +112,34 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
                         Map<String,String> params = new HashMap<String,String>();
                         params.put("nombre",nombre.getText().toString());
                         params.put("integrantes","1");
-                        params.put("idUsuario",Comunicador.getUsuario().getIdUsuario().toString());
+                        params.put("idUsuario",new usuarioDB().obtener(getContext()).getIdUsuario().toString());
 
 
                         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, WebService.addClan, new JSONObject(params), new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try{
-                                    int estado = response.getInt("estado");
+                                    Toast.makeText(getContext(),response.getString("mensaje"),Toast.LENGTH_SHORT).show();                   int estado = response.getInt("estado");
                                     if(estado == 1){
+
+
+                                        JSONObject c = response.getJSONObject("clan");
+                                        clan = new Clan(
+                                                c.getInt("idClan"),
+                                                c.getString("nombre"),
+                                                c.getInt("integrantes"),
+                                                c.getInt("idUsuario"));
+                                        new Clanes().setClan(clan);
+                                        Log.e("CLAN DESDE EL SERVIDOR",clan.getNombreClan());
+                                        Usuario us = Comunicador.getUsuario();
+                                        us.setClan(clan.getIdClan());
+                                        Comunicador.setUsuario(us);
+
                                         pg.dismiss();
-                                        Toast.makeText(getContext(),response.getString("mensaje"),Toast.LENGTH_SHORT).show();
+                                        crearClan2(clan.getIdClan()+"");
+
+                                        listener.onClanCreatedListener(1);
                                         crearClanDialog.this.dismiss();
-                                        listener.onClanCreatedListener(nombre.getText().toString());
                                     } else {
                                         pg.dismiss();
                                         btnCrear.setEnabled(true);
@@ -137,10 +157,50 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
                         });
                         WebService.getInstance(getContext()).addToRequestQueue(request);
                         // FIALIZA REGISTRO
+
                     }
                 }
                 ,3000);
     }
+
+    public void crearClan2(final String idClan){
+
+        final ProgressDialog pg = new ProgressDialog(getContext(),R.style.Oscuro_ProgressDialog);
+        pg.setIndeterminate(true);
+        pg.setMessage("Actualizando Ajustes...");
+        pg.setCancelable(false);
+        pg.show();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        // INICIA REGISTRO
+
+
+
+                        Map<String,String> params2 = new HashMap<String,String>();
+                        params2.put("usuario",Comunicador.getUsuario().getUsuario());
+                        params2.put("idUsuario",Comunicador.getUsuario().getIdUsuario()+"");
+                        params2.put("clan",idClan);
+
+                        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.POST, WebService.addClanUsuario, new JSONObject(params2), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                pg.dismiss();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response",error.getMessage());
+                            }
+                        });
+                        WebService.getInstance(getContext()).addToRequestQueue(request2);
+                    }
+                }
+                ,3000);
+    }
+
 
     public boolean validar(){
         boolean res = true;

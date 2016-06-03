@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.jefrienalvizures.clashtournament.R;
 import org.jefrienalvizures.clashtournament.bean.Usuario;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
+import org.jefrienalvizures.clashtournament.db.usuarioDB;
 
 /**
  * Created by Familia on 31/05/2016.
@@ -51,7 +52,6 @@ public class InicioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         u = Comunicador.getUsuario();
         View v;
-        if(u.getClan() == 0){
              v = inflater.inflate(R.layout.fragment_inicio,container,false);
             Button crearClanBtn = (Button) v.findViewById(R.id.btnCrearClan);
             crearClanBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +60,6 @@ public class InicioFragment extends Fragment {
                     listener.onAccionListener(1);
                 }
             });
-        } else {
-            v = inflater.inflate(R.layout.fragment_inicio0,container,false);
-        }
 
         usuarioTxt = (TextView) v.findViewById(R.id.usuarioTxtInicio);
         usuarioTxt.setText(u.getNombre());

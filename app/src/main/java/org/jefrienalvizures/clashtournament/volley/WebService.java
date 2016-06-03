@@ -13,12 +13,14 @@ import com.android.volley.toolbox.Volley;
  * Created by Jefrien Alvizures on 26/05/2016.
  */
 public class WebService {
-    public static String server = "http://192.168.1.10:8123/ClashTournamentWS";
+    public static String server = "http://clashtournament.site88.net";
+    // Rutas para Usuario
     public static String autenticar = server + "/login.php";
     public static String registrar = server + "/registro.php";
+    public static String addClanUsuario = server + "/addClanUsuario.php";
+    // Rutas para Clan
     public static String addClan = server + "/regClan.php";
-    public static String getByIdClan = server + "/clanById.php";
-    public static String getByNameClan = server + "/clanByName.php";
+    public static String getClanById = server + "/clanById.php";
 
     private static WebService mInstance;
     private RequestQueue mRequestQueue;
