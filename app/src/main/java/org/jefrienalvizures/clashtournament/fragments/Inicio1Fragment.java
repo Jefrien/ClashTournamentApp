@@ -97,7 +97,7 @@ public class Inicio1Fragment extends Fragment {
                                         Log.e("CLAN DESDE EL SERVIDOR",clan.getNombreClan());
                                         Clanes.setClan(clan);
                                         nombreClanTxt.setText(clan.getNombreClan());
-                                        //numeroIntegrantesClanTxt.setText(clan.getIntegrantesClan()+"/50");
+                                        numeroIntegrantesClanTxt.setText(clan.getIntegrantesClan()+"/50");
                                         pg.dismiss();
 
                                     } else {
