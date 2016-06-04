@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.jefrienalvizures.clashtournament.Adaptadores.AdaptadorUsuario;
 import org.jefrienalvizures.clashtournament.R;
 import org.jefrienalvizures.clashtournament.bean.Clan;
 import org.jefrienalvizures.clashtournament.bean.Usuario;
@@ -29,7 +31,9 @@ import org.jefrienalvizures.clashtournament.volley.WebService;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +44,9 @@ public class Inicio1Fragment extends Fragment {
     WebView wb;
     Usuario u;
     Clan clan;
+    ListView listaJugadore;
+    List jugadores;
+    AdaptadorUsuario adaptador;
 
 
     @Nullable
@@ -55,8 +62,11 @@ public class Inicio1Fragment extends Fragment {
         usuarioTxt.setText(u.getNombre());
         nombreClanTxt = (TextView) v.findViewById(R.id.nombreClanInicio);
         numeroIntegrantesClanTxt = (TextView) v.findViewById(R.id.numeroIntegrantesClanInicio);
+        listaJugadore = (ListView) v.findViewById(R.id.listaUsuariosClan);
+
 
         clanId();
+       // poblar();
         return v;
     }
 
@@ -65,7 +75,7 @@ public class Inicio1Fragment extends Fragment {
 
         final ProgressDialog pg = new ProgressDialog(getContext(),R.style.Oscuro_ProgressDialog);
         pg.setIndeterminate(true);
-        pg.setMessage("Iniciando Sesión...");
+        pg.setMessage("Actualizando..");
         pg.setCancelable(false);
         pg.show();
 
@@ -98,6 +108,7 @@ public class Inicio1Fragment extends Fragment {
                                         Clanes.setClan(clan);
                                         nombreClanTxt.setText(clan.getNombreClan());
                                         numeroIntegrantesClanTxt.setText(clan.getIntegrantesClan()+"/50");
+
                                         pg.dismiss();
 
                                     } else {
@@ -115,11 +126,34 @@ public class Inicio1Fragment extends Fragment {
                         });
                         WebService.getInstance(getContext()).addToRequestQueue(request);
                         // FIALIZA REGISTRO
+
+
+
+
                     }
                 }
                 ,3000);
 
 
+    }
+
+    public void poblar(){
+        Log.e("USUARIO A AGREGAR",u.getNombre());
+        jugadores = new ArrayList<Usuario>();
+        jugadores.add(new Usuario(
+                1,
+                "Jajaja",
+                "asdasdas",
+                3
+        ));
+        jugadores.add(new Usuario(
+                2,
+                "Jw2e212aja",
+                "asdas342das",
+                3
+        ));
+        adaptador = new AdaptadorUsuario(getContext(),jugadores);
+        listaJugadore.setAdapter(adaptador);
     }
 
 
