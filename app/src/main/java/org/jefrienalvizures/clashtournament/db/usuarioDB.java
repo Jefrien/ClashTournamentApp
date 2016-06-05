@@ -25,6 +25,7 @@ public class usuarioDB {
         user.put("usuario",u.getUsuario());
         user.put("nombre",u.getNombre());
         user.put("clan",u.getClan());
+        user.put("estado",u.getEstado());
 
         db.insert("usuario",null,user);
         db.close();
@@ -37,7 +38,7 @@ public class usuarioDB {
         SQLiteDatabase db = admin.getWritableDatabase();
 
         Cursor fila = db.rawQuery("" +
-                "select idUsuario,usuario,nombre,clan from usuario where id=1" +
+                "select idUsuario,usuario,nombre,clan,estado from usuario where id=1" +
                 "",null);
         if(fila.moveToFirst()){
             Log.e("Usuario de SQLITE",fila.getString(0));
@@ -47,6 +48,7 @@ public class usuarioDB {
                     fila.getString(2),
                     fila.getInt(3)
             );
+            us.setEstado(fila.getInt(4));
         } else {
             Log.e("Error SQLITE","No existe el usuario");
         }
@@ -76,7 +78,7 @@ public class usuarioDB {
         user.put("usuario",u.getIdUsuario());
         user.put("nombre",u.getNombre());
         user.put("clan",u.getClan());
-
+        user.put("estado",u.getEstado());
 
         int res = db.update("usuario",user,"id=1",null);
 

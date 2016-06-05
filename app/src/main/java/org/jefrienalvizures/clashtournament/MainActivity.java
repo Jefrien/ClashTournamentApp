@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 user.getString("nombre"),
                                                 user.getInt("clan")
                                         );
+                                        userLogged.setEstado(user.getInt("estado"));
                                         new usuarioDB().insertar(getBaseContext(),userLogged); // Ingreso el usuario a SQLite
                                         Comunicador.setUsuario(userLogged); // Guardo el usuario en ejecucion
                                         pg.dismiss();
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(new usuarioDB().logueado(this)){
             Usuario ul = new usuarioDB().obtener(this);
             Comunicador.setUsuario(ul);
-            if(ul.getClan() == 0){
+            if(ul.getClan() == 0 || ul.getEstado() == 3){
                 startActivity(new Intent(MainActivity.this,Inicio.class));
             } else {
 

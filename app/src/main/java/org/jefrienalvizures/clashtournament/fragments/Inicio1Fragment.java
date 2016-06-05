@@ -1,8 +1,7 @@
 package org.jefrienalvizures.clashtournament.fragments;
 
-import android.app.Activity;
-
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +18,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 
+import org.jefrienalvizures.clashtournament.Adaptadores.AdaptadorClan;
 import org.jefrienalvizures.clashtournament.Adaptadores.AdaptadorUsuario;
 import org.jefrienalvizures.clashtournament.R;
 import org.jefrienalvizures.clashtournament.bean.Clan;
@@ -28,10 +28,12 @@ import org.jefrienalvizures.clashtournament.bean.Usuario;
 import org.jefrienalvizures.clashtournament.clases.Clanes;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
 import org.jefrienalvizures.clashtournament.volley.WebService;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +47,13 @@ public class Inicio1Fragment extends Fragment {
     Usuario u;
     Clan clan;
     ListView listaJugadore;
-    List jugadores;
-    AdaptadorUsuario adaptador;
+    Context context;
+    int idClan;
+    List jugadores = new ArrayList();
 
+    public Inicio1Fragment(Context context){
+        this.context = context;
+    }
 
     @Nullable
     @Override
@@ -66,7 +72,7 @@ public class Inicio1Fragment extends Fragment {
 
 
         clanId();
-       // poblar();
+        //poblar();
         return v;
     }
 
@@ -106,10 +112,11 @@ public class Inicio1Fragment extends Fragment {
                                                 c.getInt("idUsuario"));
                                         Log.e("CLAN DESDE EL SERVIDOR",clan.getNombreClan());
                                         Clanes.setClan(clan);
+                                        idClan = clan.getIdClan();
                                         nombreClanTxt.setText(clan.getNombreClan());
-                                        numeroIntegrantesClanTxt.setText(clan.getIntegrantesClan()+"/50");
 
-                                        pg.dismiss();
+
+
 
                                     } else {
                                         Toast.makeText(getContext(),"Error obteniendo el clan",Toast.LENGTH_SHORT).show();
@@ -129,6 +136,50 @@ public class Inicio1Fragment extends Fragment {
 
 
 
+                        Map<String,String> params1 = new HashMap<String,String>();
+                        params1.put("idClan",Comunicador.getUsuario().getClan()+"");
+
+
+                        JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.POST, WebService.getAllUsuarios, new JSONObject(params1), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response1) {
+                                try{
+
+                                    int estado = response1.getInt("estado");
+                                    if(estado == 1){
+
+
+                                        JSONArray mensaje = response1.getJSONArray("usuario");
+                                        Log.e("NUMERO DE JUGADORES",mensaje.length()+" del clan ID: "+idClan);
+                                        numeroIntegrantesClanTxt.setText(mensaje.length()+"/50");
+                                        for(int i=0; i<mensaje.length();i++){
+                                            JSONObject objeto = mensaje.getJSONObject(i);
+                                            jugadores.add(new Usuario(
+                                                    i+1,
+                                                    objeto.getString("usuario"),
+                                                    objeto.getString("nombre"),
+                                                    objeto.getInt("clan")
+                                            ));
+
+                                        }
+                                        poblar();
+                                        pg.dismiss();
+
+                                    } else {
+                                        Toast.makeText(getContext(),"Error obteniendo el clan",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch(Exception ex){
+                                    Log.e("Error",ex.getMessage());
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response",error.getMessage());
+                            }
+                        });
+                        WebService.getInstance(getContext()).addToRequestQueue(request1);
+
 
                     }
                 }
@@ -139,21 +190,7 @@ public class Inicio1Fragment extends Fragment {
 
     public void poblar(){
         Log.e("USUARIO A AGREGAR",u.getNombre());
-        jugadores = new ArrayList<Usuario>();
-        jugadores.add(new Usuario(
-                1,
-                "Jajaja",
-                "asdasdas",
-                3
-        ));
-        jugadores.add(new Usuario(
-                2,
-                "Jw2e212aja",
-                "asdas342das",
-                3
-        ));
-        adaptador = new AdaptadorUsuario(getContext(),jugadores);
-        listaJugadore.setAdapter(adaptador);
+        listaJugadore.setAdapter(new AdaptadorUsuario(context, jugadores));
     }
 
 

@@ -8,6 +8,7 @@ public class Usuario {
     private String usuario;
     private String nombre;
     private int clan;
+    private int estado;
 
     public Usuario(Integer idUsuario, String usuario, String nombre, int clan) {
         this.idUsuario = idUsuario;
@@ -46,5 +47,13 @@ public class Usuario {
 
     public void setClan(int clan) {
         this.clan = clan;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 }

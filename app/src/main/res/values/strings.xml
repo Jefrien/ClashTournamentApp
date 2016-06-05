@@ -19,4 +19,9 @@
         desea ser incluido o no.
         Que comienze la diversión...
     </string>
+
+    <string name="unirseClan">
+        Para unirte a un clan necesitas saber el ID del clan que deseas, puedes solicitarlo al
+        dueño del clan ó pedirle a el que te agregue.
+    </string>
 </resources>

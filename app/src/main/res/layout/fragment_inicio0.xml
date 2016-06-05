@@ -28,12 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="5dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RealityKings"
-        android:textSize="15dp"
+        android:textSize="25dp"
         android:gravity="left"
         android:textColor="@color/verde"
         android:layout_weight="2"
@@ -86,7 +86,10 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"
         android:id="@+id/listaUsuariosClan"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
         />
 
 </LinearLayout>

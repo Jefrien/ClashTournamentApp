@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.jefrienalvizures.clashtournament.Dialogs.unirseClanDialog;
 import org.jefrienalvizures.clashtournament.R;
 import org.jefrienalvizures.clashtournament.bean.Usuario;
 import org.jefrienalvizures.clashtournament.clases.Comunicador;
@@ -20,11 +21,20 @@ import org.jefrienalvizures.clashtournament.db.usuarioDB;
 /**
  * Created by Familia on 31/05/2016.
  */
-public class InicioFragment extends Fragment {
+public class InicioFragment extends Fragment implements unirseClanDialog.OnJoinedClanListener {
 
-    TextView usuarioTxt;
+    TextView usuarioTxt,estadoTxt;
     WebView wb;
     Usuario u;
+
+    @Override
+    public void onJoinedClanListener(int respuesta) {
+        switch (respuesta){
+            case 1:
+                estadoTxt.setText("Solicitud enviada");
+                break;
+        }
+    }
 
     public interface OnButtonClickListenerInicio{
         void onAccionListener(int accion);
@@ -54,6 +64,13 @@ public class InicioFragment extends Fragment {
         View v;
              v = inflater.inflate(R.layout.fragment_inicio,container,false);
             Button crearClanBtn = (Button) v.findViewById(R.id.btnCrearClan);
+            Button unirseClanBtn = (Button) v.findViewById(R.id.btnUnirseClan);
+            unirseClanBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onAccionListener(2);
+                }
+            });
             crearClanBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,8 +79,17 @@ public class InicioFragment extends Fragment {
             });
 
         usuarioTxt = (TextView) v.findViewById(R.id.usuarioTxtInicio);
+        estadoTxt = (TextView) v.findViewById(R.id.estadoClanInicio);
         usuarioTxt.setText(u.getNombre());
 
+        switch(u.getEstado()){
+            case 0:
+                estadoTxt.setText("No tienes clan");
+                break;
+            case 3:
+                estadoTxt.setText("Solicitud enviada");
+                break;
+        }
         return v;
     }
 

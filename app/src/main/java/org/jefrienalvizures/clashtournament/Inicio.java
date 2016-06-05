@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.jefrienalvizures.clashtournament.Dialogs.crearClanDialog;
+import org.jefrienalvizures.clashtournament.Dialogs.unirseClanDialog;
 import org.jefrienalvizures.clashtournament.bean.Clan;
 import org.jefrienalvizures.clashtournament.clases.Clanes;
 import org.jefrienalvizures.clashtournament.db.usuarioDB;
@@ -34,7 +35,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanCreatedListener, InicioFragment.OnButtonClickListenerInicio {
+public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanCreatedListener, InicioFragment.OnButtonClickListenerInicio, unirseClanDialog.OnJoinedClanListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -42,10 +43,10 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        new usuarioDB().obtener(getBaseContext());
         Usuario u = new usuarioDB().obtener(getBaseContext());
 
         setToolbar();
+
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText("CLAN"));
@@ -100,6 +101,9 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
             case 1:
                 new crearClanDialog().show(getSupportFragmentManager(),"crearClanDialog");
                 break;
+            case 2:
+                new unirseClanDialog().show(getSupportFragmentManager(),"unirseClanDialog");
+                break;
         }
     }
 
@@ -115,6 +119,16 @@ public class Inicio extends AppCompatActivity implements crearClanDialog.OnClanC
 
     }
 
+    @Override
+    public void onJoinedClanListener(int respuesta) {
+        switch(respuesta) {
+            case 1:
+                Usuario u = Comunicador.getUsuario();
+                u.setEstado(3);
+                new usuarioDB().modificar(this,u);
+                break;
+        }
+    }
 
 
     /**

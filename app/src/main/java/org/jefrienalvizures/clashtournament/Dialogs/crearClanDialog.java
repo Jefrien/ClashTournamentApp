@@ -187,7 +187,7 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
                         JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.POST, WebService.addClanUsuario, new JSONObject(params2), new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                pg.dismiss();
+
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -196,6 +196,29 @@ public class crearClanDialog extends DialogFragment implements View.OnClickListe
                             }
                         });
                         WebService.getInstance(getContext()).addToRequestQueue(request2);
+
+
+                        Map<String,String> params3 = new HashMap<String,String>();
+                        params3.put("usuario", Comunicador.getUsuario().getUsuario());
+                        params3.put("idUsuario",Comunicador.getUsuario().getIdUsuario()+"");
+                        params3.put("estado","1");
+
+                        JsonObjectRequest request3 = new JsonObjectRequest(Request.Method.POST, WebService.updateEstado, new JSONObject(params3), new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Usuario u = Comunicador.getUsuario();
+                                u.setEstado(1);
+                                Comunicador.setUsuario(u);
+                                new usuarioDB().modificar(getContext(),u);
+                                pg.dismiss();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response",error.getMessage());
+                            }
+                        });
+                        WebService.getInstance(getContext()).addToRequestQueue(request3);
                     }
                 }
                 ,3000);

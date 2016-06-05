@@ -1,5 +1,6 @@
 package org.jefrienalvizures.clashtournament;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import org.jefrienalvizures.clashtournament.Dialogs.crearClanDialog;
 import org.jefrienalvizures.clashtournament.bean.Usuario;
@@ -23,12 +23,15 @@ public class Inicio1 extends AppCompatActivity implements crearClanDialog.OnClan
 
     ViewPager viewPager;
     TabLayout tabLayout;
+
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        new usuarioDB().obtener(getBaseContext());
-        Usuario u = new usuarioDB().obtener(getBaseContext());
+        this.context = this;
+
 
         setToolbar();
 
@@ -58,6 +61,7 @@ public class Inicio1 extends AppCompatActivity implements crearClanDialog.OnClan
 
             }
         });
+
 
     }
 
@@ -113,7 +117,7 @@ public class Inicio1 extends AppCompatActivity implements crearClanDialog.OnClan
 
             switch (position) {
                 case 0:
-                    Inicio1Fragment tab1 = new Inicio1Fragment();
+                    Inicio1Fragment tab1 = new Inicio1Fragment(context);
                     return tab1;
                 case 1:
                     perfilFragment tab2 = new perfilFragment();
